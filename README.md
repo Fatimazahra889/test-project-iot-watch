@@ -17,29 +17,6 @@ Build a small IoT-enabled web app that:
 - Secuirity
 - ...
 
----
-
-## 🚀 Technical Submission Summary
-I have enhanced this project with production-grade security and IoT-specific optimizations to satisfy the technical requirements.
-
-### 🔒 1. Advanced Security (JWT & Authentication)
-- **Secure Authentication:** Implemented a robust login system using `Flask-JWT-Extended`.
-- **Password Hashing:** Used `werkzeug.security` for PBKDF2 hashing; passwords are never stored in plain text.
-- **Persistence:** Added **Refresh Tokens** to support long-running dashboard sessions.
-- **Route Protection:** All API endpoints (`/latest`, `/history`, `/predict`, etc.) are fully protected.
-- **Rate Limiting:** Integrated `Flask-Limiter` to prevent brute-force attacks on authentication routes (limit: 5 attempts/minute).
-
-### 🔋 2. IoT Optimization (Adaptive Sampling)
-- **Simulated Deep Sleep:** Implemented an adaptive sampling algorithm in the background service. 
-- **Efficiency:** The system dynamically adjusts the update frequency based on data stability (from 1s up to 60s), mimicking a low-power "Deep Sleep" mode to optimize battery life and reduce network overhead.
-
-### 🧪 How to Test & Credentials
-To access the protected API routes, use the following credentials:
-- **Username:** `admin`
-- **Password:** `agri40_secure_pass`
-
----
-
 ## TODO – Practical Tasks
 This challenge also assesses your hands-on engineering skills through the following tasks:
 
