@@ -55,14 +55,33 @@ init_db()
 
 def run_background_services():
     def temperature_updater():
-        """Update temperature data continuously"""
+        """Adaptive Sampling: Simulates power saving by adjusting frequency based on data stability"""
+        last_temp = None
+        current_interval = 1 # Start at 1 second
+        max_interval = 60    # Max "sleep" of 60 seconds if data is stable
+        
         while True:
             try:
-                get_current_temperature()
-                time.sleep(1)
+                # 1. Fetch current temp
+                temp_data = get_current_temperature() 
+                current_temp = temp_data if isinstance(temp_data, (int, float)) else None
+                
+                # 2. Logic to adjust sampling rate
+                if last_temp is not None and current_temp == last_temp:
+                    # Data is stable, "sleep" longer (increase interval)
+                    current_interval = min(current_interval * 2, max_interval)
+                    print(f"[{datetime.now().isoformat()}] Temp stable at {current_temp}°C. Adaptive sleep increased to {current_interval}s")
+                else:
+                    # Data changed! Reset to high-frequency sampling
+                    current_interval = 1
+                    last_temp = current_temp
+                    print(f"[{datetime.now().isoformat()}] Temp changed/initial: {current_temp}°C. Sampling reset to {current_interval}s")
+
+                time.sleep(current_interval)
+                
             except Exception as e:
                 print(f"Error in temperature updater: {str(e)}")
-                time.sleep(1)
+                time.sleep(5)
     
     def scheduler():
         schedule.every().day.at("00:00").do(update_all_predictions)
